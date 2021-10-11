@@ -16,14 +16,15 @@ exports.signup = (req, res) => {
                     isAdmin: false
                 })
                 .then((user) => res.status(201).json({
-                    idUser: user.idUser
+                    idUser: user.idUser,
+                    message : 'Utilisateur créé avec succès'
                 }))
-                .then(console.log('Utilisateur créé avec succès'))
+                
                 .catch(error => res.status(400).json({
-                    error
-                }));
+                    error : 'Bad request'
+                })); 
         })
         .catch(error => res.status(500).json({
-            error : 'Incorrect request'
+            error : 'Internal Server Error ' 
         }));
-};
+}; 

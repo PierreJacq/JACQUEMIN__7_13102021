@@ -13,7 +13,7 @@ const sequelize = require('./config/database');
 
 sequelize.authenticate()
     .then(() => console.log('Connexion à AWS réussie !')) 
-    .catch(() => console.log('Connexion à AWS échouée !'));
+    .catch(() => console.log('Connexion à AWS échouée !')); 
 
 //--------------------------------------------------------------
 //--------------  HEADERS
