@@ -17,14 +17,58 @@ exports.signup = (req, res) => {
                 })
                 .then((user) => res.status(201).json({
                     idUser: user.idUser,
-                    message : 'Utilisateur créé avec succès'
+                    message: 'New user created !'
                 }))
-                
+
                 .catch(error => res.status(400).json({
-                    error : 'Bad request'
-                })); 
+                    error: 'Bad request'
+                }));
         })
         .catch(error => res.status(500).json({
-            error : 'Internal Server Error ' 
+            error: 'Internal Server Error '
         }));
-}; 
+};
+
+
+exports.login = (req, res) => {
+    var submittedLogin = req.body.login;
+    var submittedPassword = req.body.password;
+
+    User.findOne({
+            where: {
+                login: submittedLogin
+            }
+        })
+        .then(user => {
+            if (!user) {
+                return res.status(401).json({
+                    error: 'User not found'
+                });
+            }
+            bcrypt.compare(submittedPassword, user.password)
+                .then(valid => {
+                    if (!valid) {
+                        return res.status(401).json({
+                            error: 'Mot de passe incorrect !'
+                        });
+                    }
+                    res.status(200).json({
+                        message : 'User connected',
+                        idUser: user.idUser,
+                        token: jwt.sign({
+                                idUser: user.id
+                            },
+                            process.env.LOGIN_TOKEN, {
+                                expiresIn: '24h'
+                            }
+                        )
+                    });
+                })
+                .catch(error => res.status(500).json({
+                    error : 'ici'
+                }));
+        })
+        .catch(error => res.status(500).json({
+            error : 'là' 
+        })); 
+};

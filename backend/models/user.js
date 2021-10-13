@@ -43,9 +43,9 @@ User.init({
     }
 }, {
     sequelize,
-    modelName : 'User',
-    tableName: 'user',
-    timestamps: false    
+    modelName : 'User', 
+    tableName: 'user', // correspond à la table mySQL// 
+    timestamps: false // évite de rajouter à l'insert des timestamp
 });
 
 console.log(User === sequelize.models.User);
