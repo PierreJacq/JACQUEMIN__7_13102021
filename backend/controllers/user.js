@@ -1,6 +1,9 @@
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
 const jwt = require('jsonwebtoken');
+const {
+    restore
+} = require('../models/User');
 const dotenv = require('dotenv').config();
 
 exports.signup = (req, res) => {
@@ -29,6 +32,15 @@ exports.signup = (req, res) => {
         }));
 };
 
+/* exports.login = (req, res) => {
+    User.findOne({
+        where : {
+            login:req.body.login
+        }
+    })
+    .then(console.log('plop'))
+    .catch(console.log('plap'))
+} */
 
 exports.login = (req, res) => {
     var submittedLogin = req.body.login;
@@ -53,7 +65,7 @@ exports.login = (req, res) => {
                         });
                     }
                     res.status(200).json({
-                        message : 'User connected',
+                        message: 'User connected',
                         idUser: user.idUser,
                         token: jwt.sign({
                                 idUser: user.id
@@ -65,10 +77,22 @@ exports.login = (req, res) => {
                     });
                 })
                 .catch(error => res.status(500).json({
-                    error : 'ici'
+                    error: 'ici'
                 }));
         })
         .catch(error => res.status(500).json({
-            error : 'là' 
-        })); 
+            error: 'là'
+        }));
 };
+
+exports.getAllUsers = (req, res) => {
+    User.findAll()
+        .then((users) => {
+            res.status(200).json(users)
+        })
+        .catch((error) => {
+            res.status(400).json({
+                error: 'Pas fonctionné'
+            });
+        })
+}

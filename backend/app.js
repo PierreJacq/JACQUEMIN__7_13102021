@@ -36,15 +36,15 @@ app.use((req, res, next) => {
 const userRoutes = require ('./routes/user')
 app.use('/api/user', userRoutes)
 
-/* // Route images
+// Route images
 const path = require('path');
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-// Route post
+/* // Route post
 const postRoutes = require ('./routes/post')
-app.use('/api/post', postRoutes)
+app.use('/api/post', postRoutes) */
 
-// Route postComment
+/* // Route postComment
 const postCommentRoutes = require ('./routes/postComment')
 app.use('/api/postComment', postCommentRoutes)
 
