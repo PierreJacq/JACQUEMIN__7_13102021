@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt')
 const User = require('../models/User')
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config();
+const fs = require('fs');
 
 exports.signup = (req, res) => {
     bcrypt.hash(req.body.password, 10)
@@ -31,11 +32,9 @@ exports.signup = (req, res) => {
 
 
 exports.login = (req, res) => {
-    var submittedLogin = req.body.login;
-
     User.findOne({
             where: {
-                login: submittedLogin
+                login: req.body.login
             }
         })
         .then(user => {
@@ -48,7 +47,7 @@ exports.login = (req, res) => {
                 .then(valid => {
                     if (!valid) {
                         return res.status(401).json({
-                            error: 'Mot de passe incorrect !'
+                            error: 'Incorrect password !'
                         });
                     }
                     res.status(200).json({
@@ -79,7 +78,94 @@ exports.getAllUsers = (req, res) => {
         })
         .catch((error) => {
             res.status(400).json({
-                error: 'Pas fonctionné'
+                error: 'Bad request'
             });
         })
+};
+
+exports.getOneUser = (req, res) => {
+    User.findOne({
+            where: {
+                idUser: req.params.id
+            }
+        })
+        .then((user) => {
+            res.status(200).json(user)
+        })
+        .catch((error) => {
+            res.status(400).json({
+                error: 'Bad request'
+            })
+        })
+};
+
+exports.modifyOneUser = async (req, res) => {
+    const userObject = req.file ? {
+        ...JSON.parse(req.body),
+        URLprofile: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : {
+        ...req.body
+    };
+    await User.findOne({
+            where: {
+                idUser: req.params.id
+            }
+        })
+        .then(async (foundUser) => {
+            if (foundUser) {
+                foundUser.update({
+                        ...userObject
+                    })
+                    .then((user) => {
+                        res.status(200).json(user)
+                    })
+                    .catch((error) => {
+                        res.status(505).json({
+                            error: 'Internal server error'
+                        })
+                    })
+            } else {
+                res.status(404).json({
+                    error: "User can't be found"
+                })
+            }
+        })
+        .catch((error) => {
+            res.status(400).json({
+                error: 'Bad request'
+            })
+        })
+};
+
+exports.deleteOneUser = (req, res) => {
+    User.findOne({
+            where: {
+                idUser: req.params.id
+            }
+        })
+        .then(user => {
+            if(user){
+                const filename = user.URLprofile.split('/images/')[1];
+                fs.unlink(`images/${filename}`, () => {
+                    User.destroy({
+                            where: {
+                                idUser: req.params.id
+                            }
+                        })
+                        .then(() => res.status(200).json({
+                            message: 'User deleted'
+                        }))
+                        .catch(error => res.status(400).json({
+                            error
+                        }));
+                });
+            } else {
+                res.status(404).json({
+                    error: "User can't be found"
+                })
+            }
+        })
+        .catch(error => res.status(500).json({
+            error: 'Internal server error'
+        }));
 };

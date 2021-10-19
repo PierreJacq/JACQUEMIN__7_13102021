@@ -48,6 +48,4 @@ User.init({
     timestamps: false // évite de rajouter à l'insert des timestamp
 });
 
-console.log(User === sequelize.models.User);
-
 module.exports = User; 
