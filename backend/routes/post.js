@@ -15,9 +15,9 @@ const multer = require('../middleware/multer-config');
 //--------------------------------------------------------------
 
 router.get('/', auth, postCtrl.getAllPosts)
-router.post('/', auth, multer, postCtrl.createPost) // rajouter l'AUTH sur toutes les routes, remettre multer
+router.post('/', auth, multer, postCtrl.createPost) 
 router.get('/:id', auth, postCtrl.getOnePost)
-/* router.put('/:id', postCtrl.modifyPost)
-router.delete('/:id', postCtrl.deletePost) */
+router.put('/:id', auth, multer, postCtrl.modifyPost)
+router.delete('/:id', auth, multer, postCtrl.deletePost)
 
 module.exports = router;

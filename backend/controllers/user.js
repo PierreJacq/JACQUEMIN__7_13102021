@@ -7,24 +7,25 @@ const fs = require('fs');
 exports.signup = (req, res) => {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
-            const user = User.create({
+            User.create({
                     login: req.body.login,
                     password: hash,
                     firstName: req.body.firstName,
                     lastName: req.body.lastName,
-                    URLprofile: req.body.URLprofile,
+                    URLprofile: req.file ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}` : `${req.protocol}://${req.get("host")}/images/sasha.png`,
                     birthDate: req.body.birthDate,
                     isAdmin: false
                 })
-                .then((user) => res.status(201).json({
-                    idUser: user.idUser,
-                    message: 'New user created !'
-                }))
-
+                .then((user) => {
+                    res.status(201).json({
+                        idUser: user.idUser,
+                        message: 'New user created !'
+                    })
+                })
                 .catch((error) => {
                     res.status(400).json({
                         error,
-                        error : "Bad request"
+                        error: "Bad request"
                     })
                 })
         })
@@ -34,7 +35,6 @@ exports.signup = (req, res) => {
             })
         })
 };
-
 
 exports.login = (req, res) => {
     User.findOne({
@@ -67,13 +67,17 @@ exports.login = (req, res) => {
                         )
                     });
                 })
-                .catch(error => res.status(500).json({
-                    error: 'ici'
-                }));
+                .catch((error) => {
+                    res.status(500).json({
+                        error
+                    })
+                });
         })
-        .catch(error => res.status(500).json({
-            error
-        }));
+        .catch((error) => {
+            res.status(500).json({
+                error
+            })
+        });
 };
 
 exports.getAllUsers = (req, res) => {
@@ -83,7 +87,7 @@ exports.getAllUsers = (req, res) => {
         })
         .catch((error) => {
             res.status(400).json({
-                error: 'Bad request'
+                error
             });
         })
 };
@@ -104,39 +108,39 @@ exports.getOneUser = (req, res) => {
         })
 };
 
-exports.modifyOneUser = async (req, res) => {
+exports.modifyOneUser = (req, res) => {
     const userObject = req.file ? {
-        ...JSON.parse(req.body),
+        ...req.body,
         URLprofile: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : {
         ...req.body
     };
-    await User.findOne({
+    User.findOne({
             where: {
                 idUser: req.params.id
             }
         })
-        .then(async (foundUser) => {
-            if (foundUser) {
-                foundUser.update({
-                        ...userObject
-                    })
-                    .then((user) => {
-                        res.status(200).json(user)
-                    })
-                    .catch((error) => {
-                        res.status(505).json({
-                            error: 'Internal server error'
-                        })
-                    })
-            } else {
-                res.status(404).json({
-                    error: "User can't be found"
+        .then((foundUser) => {
+            if (!foundUser) {
+                return res.status(404).json({
+                    error: "This user doesn't exist"
                 })
             }
+            foundUser.update({
+                    ...userObject
+                })
+                .then((user) => {
+                    res.status(200).json(user)
+                })
+                .catch((error) => {
+                    res.status(505).json({
+                        error: 'Internal server error'
+                    })
+                })
         })
         .catch((error) => {
             res.status(400).json({
+                error,
                 error: 'Bad request'
             })
         })
