@@ -21,9 +21,9 @@ router.post('/login', userCtrl.login);
 //--------------  Reste du CRUD
 //--------------------------------------------------------------
 
-router.get('/', userCtrl.getAllUsers); // attention remettre le middleware AUTH
-router.get('/:id', userCtrl.getOneUser); // attention remettre le middleware AUTH
-router.put('/:id', userCtrl.modifyOneUser); // attention, remettre le middelware
-router.delete('/:id', userCtrl.deleteOneUser); // attention, remmettre le middleware auth
+router.get('/', auth, userCtrl.getAllUsers); 
+router.get('/:id', auth, userCtrl.getOneUser); 
+router.put('/:id', auth, userCtrl.modifyOneUser); 
+router.delete('/:id', auth, userCtrl.deleteOneUser); 
 
 module.exports = router;

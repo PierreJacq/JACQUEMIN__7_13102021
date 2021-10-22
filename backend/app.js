@@ -40,15 +40,15 @@ app.use('/api/user', userRoutes)
 const path = require('path');
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-/* // Route post
+// Route post
 const postRoutes = require ('./routes/post')
-app.use('/api/post', postRoutes) */
+app.use('/api/post', postRoutes)
 
-/* // Route postComment
+/* // Route Comment
 const postCommentRoutes = require ('./routes/postComment')
 app.use('/api/postComment', postCommentRoutes)
 
-// Route postLike
+// Route Like
 const postLikeRoutes = require ('./routes/postLike')
 app.use('/api/postLike', postLikeRoutes) */
 

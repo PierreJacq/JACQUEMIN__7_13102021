@@ -2,11 +2,13 @@ const jwt = require('jsonwebtoken')
 
 module.exports = (req, res, next) => {
     try {
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.headers.authorization  //.split(' ')[1];   Retiré pour l'instant
         const decodedToken = jwt.verify(token, process.env.LOGIN_TOKEN);
-        const userId = decodedToken.userId;
-        if (req.body.userId && req.body.userId !== userId) {
-            throw 'Invalid user ID';
+        const userId = decodedToken.idUser;
+        if (req.body.idUser && req.body.idUser != userId) {
+            res.status(404).json({
+                error: 'User cannot be found'
+            })
         } else {
             next();
         }

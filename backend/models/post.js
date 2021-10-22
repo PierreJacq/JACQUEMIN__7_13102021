@@ -12,7 +12,7 @@ Post.init ({
         unique : true
     },
     authorId: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER.UNSIGNED,
         references : {
             model: 'User',
             key: 'idUser'

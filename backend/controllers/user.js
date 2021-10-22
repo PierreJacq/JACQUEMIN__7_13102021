@@ -21,13 +21,18 @@ exports.signup = (req, res) => {
                     message: 'New user created !'
                 }))
 
-                .catch(error => res.status(400).json({
-                    error: 'Bad request'
-                }));
+                .catch((error) => {
+                    res.status(400).json({
+                        error,
+                        error : "Bad request"
+                    })
+                })
         })
-        .catch(error => res.status(500).json({
-            error: 'Internal Server Error '
-        }));
+        .catch((error) => {
+            res.status(500).json({
+                error
+            })
+        })
 };
 
 
@@ -54,7 +59,7 @@ exports.login = (req, res) => {
                         message: 'User connected',
                         idUser: user.idUser,
                         token: jwt.sign({
-                                idUser: user.id
+                                idUser: user.idUser
                             },
                             process.env.LOGIN_TOKEN, {
                                 expiresIn: '24h'
@@ -144,7 +149,7 @@ exports.deleteOneUser = (req, res) => {
             }
         })
         .then(user => {
-            if(user){
+            if (user) {
                 const filename = user.URLprofile.split('/images/')[1];
                 fs.unlink(`images/${filename}`, () => {
                     User.destroy({
