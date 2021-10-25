@@ -169,12 +169,14 @@ exports.deleteOneUser = (req, res) => {
                         }));
                 });
             } else {
-                res.status(404).json({
+                return res.status(404).json({
                     error: "User can't be found"
                 })
             }
         })
-        .catch(error => res.status(500).json({
-            error: 'Internal server error'
-        }));
+        .catch((error) => {
+            res.status(500).json({
+                error: 'Internal server error'
+            })
+        });
 };

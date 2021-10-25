@@ -44,11 +44,11 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 const postRoutes = require ('./routes/post')
 app.use('/api/post', postRoutes)
 
-/* // Route Comment
-const postCommentRoutes = require ('./routes/postComment')
-app.use('/api/postComment', postCommentRoutes)
+// Route Comment
+const commentRoutes = require ('./routes/comment')
+app.use('/api/comment', commentRoutes)
 
-// Route Like
+/* // Route Like
 const postLikeRoutes = require ('./routes/postLike')
 app.use('/api/postLike', postLikeRoutes) */
 

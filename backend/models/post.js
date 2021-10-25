@@ -13,6 +13,7 @@ Post.init ({
     },
     authorId: {
         type: DataTypes.INTEGER.UNSIGNED,
+        allowNull : false,
         references : {
             model: 'User',
             key: 'idUser'

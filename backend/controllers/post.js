@@ -122,10 +122,10 @@ exports.modifyPost = (req, res) => {
 
 exports.deletePost = (req, res) => {
     Post.findOne({
-        where: {
-            idPost: req.params.id
-        }
-    })
+            where: {
+                idPost: req.params.id
+            }
+        })
         .then((foundPost) => {
 
             if (!foundPost) {
@@ -137,10 +137,10 @@ exports.deletePost = (req, res) => {
             fs.unlink(`images/${filename}`, () => {
                 foundPost.destroy();
                 return res.status(200).json({
-                    message : "Post successfuly deleted"
+                    message: "Post successfuly deleted"
                 })
             })
-            
+
         })
         .catch((error) => {
             res.status(500).json({
@@ -148,4 +148,4 @@ exports.deletePost = (req, res) => {
                 error
             })
         })
-}; 
+};
