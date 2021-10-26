@@ -4,14 +4,12 @@ const Post = require('../models/Post');
 const User = require('../models/User');
 
 exports.createComment = (req, res) => {
-    console.log("on arrive bien jusque là")
     User.findOne({
             where: {
                 idUser: req.body.userId
             }
         })
         .then((foundAuthor) => {
-            console.log("on arrive bien jusque ici")
             if (!foundAuthor) {
                 return res.status(404).json({
                     error: "This user doesn't exist"
@@ -41,22 +39,123 @@ exports.createComment = (req, res) => {
                         })
                         .catch((error) => {
                             res.status(400).json({
-                                error :'Could not create new comment',
+                                error: 'Could not create new comment',
                                 error
                             })
                         })
                 })
-                .catch((error) => {
+                .catch(() => {
                     res.status(500).json({
-                        error
+                        error : "Internal server error"
                     })
                 })
         })
         .catch((error) => {
-            console.log(req.body.userId)
             res.status(500).json({
                 error,
-                error: 'Ici'
+                error: 'Internal server error'
+            })
+        })
+};
+
+exports.getAllComments = (req, res) => {
+    Post.findOne({
+            where: {
+                idPost: req.body.postId
+            }
+        })
+        .then((foundPost) => {
+            if (!foundPost) {
+                return res.status(404).json({
+                    error: "Post doesn't exist"
+                })
+            }
+            Comment.findAll({
+                    where: {
+                        postId: foundPost.idPost
+                    }
+                })
+                .then((foundComments) => {
+                    res.status(200).json(foundComments)
+                })
+                .catch((error) => {
+                    res.status(500).json({
+                        error,
+                        error: "Internal server error"
+                    })
+                })
+        })
+        .catch((error) => {
+            res.status(500).json({
+                error,
+                error: "Internal server error"
+            })
+        })
+};
+
+exports.modifyComment = (req, res) => {
+    Comment.findOne({
+            where: {
+                commentId: req.body.commentId
+            }
+        })
+        .then((foundComment) => {
+            if (!foundComment) {
+                return res.status(404).json({
+                    error: "This comment doesn't exist"
+                })
+            }
+            foundComment.update({
+                    commentText: req.body.commentText
+                })
+                .then((updatedComment) => {
+                    res.status(200).json(updatedComment)
+                })
+                .catch((error) => {
+                    res.status(500).json({
+                        error,
+                        error: "Internal server error" 
+                    })
+                })
+        })
+        .catch((error) => {
+            res.status(500).json({
+                error,
+                error: "Internal server error"
+            })
+        })
+};
+
+exports.deleteComment = (req, res) => {
+    Comment.findOne({
+        where : {
+            commentId : req.body.commentId
+        }
+    })
+        .then((foundComment) => {
+            if (!foundComment) {
+                return res.status(404).json({
+                    error: "This comment doesn't exist"
+                })
+            }
+            // ajouter ici une condition sur l'auteur ou l'admin, à gérer plus tard
+            foundComment.destroy()
+                .then(() => {
+                    res.status(200).json({
+                        message : "Comment sucessefuly deleted"
+                    })
+                })
+                .catch((error) => {
+                    res.status(500).json({
+                        error,
+                        error: "Internal server error"
+                    })
+                })
+        })
+        .catch((error) => {
+            res.status(500).json({
+                error,
+                error: "Internal server error"
             })
         })
 };

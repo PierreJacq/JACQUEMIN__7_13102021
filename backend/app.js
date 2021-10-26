@@ -48,8 +48,8 @@ app.use('/api/post', postRoutes)
 const commentRoutes = require ('./routes/comment')
 app.use('/api/comment', commentRoutes)
 
-/* // Route Like
-const postLikeRoutes = require ('./routes/postLike')
-app.use('/api/postLike', postLikeRoutes) */
+// Route Like
+const likeRoutes = require ('./routes/like')
+app.use('/api/like', likeRoutes)
 
 module.exports = app;
