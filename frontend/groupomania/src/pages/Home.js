@@ -1,8 +1,12 @@
+import Navigation from "../components/Navigation";
+
 const Home = () => {
     return (
-        <p> Je suis un tout petit bout de HTML</p>
+        <div className="conteneur-home">
+        <Navigation />
+        <p> Je suis la page d'accueil sur laquelle on voit les posts etc.</p>
+        </div>
     )
 }
-
 
 export default Home;
