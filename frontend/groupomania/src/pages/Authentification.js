@@ -1,10 +1,16 @@
+import Connexion from "../components/Connexion";
+import Inscription from "../components/Inscription";
+
 const Authentification = () => {
     return (
-        <div className="conteneur-authentification">
-            <h1>Authentification</h1>
-            <p>Je suis une page d'authentification très claire, on arrive chez moi en premier.</p>
-
-        </div>// ICI on va insérer deux inputs : le premier qui va nous permettre de nous inscrire et le second nous permettant de nous identifier.
+        <div className="authentification">
+            <img src="./img/icon-redim.png" alt="Logo Groupomania"/>
+            <div className="formulaires">
+                <Connexion />
+                <div className="auth__separateur"></div>
+                <Inscription />
+            </div>
+        </div>
 
     );
 };
