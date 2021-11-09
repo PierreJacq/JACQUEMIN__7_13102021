@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt')
-const User = require('../models/User')
+const {User, Post, Comment, Like} = require('../models/index')
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config();
 const fs = require('fs');
@@ -18,7 +18,7 @@ exports.signup = (req, res) => {
                 })
                 .then((user) => {
                     res.status(201).json({
-                        idUser: user.idUser,
+                        id: user.id,
                         message: 'New user created !'
                     })
                 })
@@ -55,11 +55,11 @@ exports.login = (req, res) => {
                             error: 'Incorrect password !'
                         });
                     }
-                    res.status(200).json({
+                    res.status(200).json({ 
                         message: 'User connected',
-                        idUser: user.idUser,
+                        id: user.id,
                         token: jwt.sign({
-                                idUser: user.idUser
+                                id: user.id
                             },
                             process.env.LOGIN_TOKEN, {
                                 expiresIn: '24h'
@@ -95,7 +95,7 @@ exports.getAllUsers = (req, res) => {
 exports.getOneUser = (req, res) => {
     User.findOne({
             where: {
-                idUser: req.params.id
+                id: req.params.id
             }
         })
         .then((user) => {
@@ -117,7 +117,7 @@ exports.modifyOneUser = (req, res) => {
     };
     User.findOne({
             where: {
-                idUser: req.params.id
+                id: req.params.id
             }
         })
         .then((foundUser) => {
@@ -149,7 +149,7 @@ exports.modifyOneUser = (req, res) => {
 exports.deleteOneUser = (req, res) => {
     User.findOne({
             where: {
-                idUser: req.params.id
+                id: req.params.id
             }
         })
         .then(user => {
@@ -158,7 +158,7 @@ exports.deleteOneUser = (req, res) => {
                 fs.unlink(`images/${filename}`, () => {
                     User.destroy({
                             where: {
-                                idUser: req.params.id
+                                id: req.params.id
                             }
                         })
                         .then(() => res.status(200).json({

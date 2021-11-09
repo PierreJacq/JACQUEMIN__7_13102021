@@ -8,14 +8,14 @@ const sequelize = require('../config/database');
 class Comment extends Model {}
 
 Comment.init({
-    commentId: {
+    id: {
         type : DataTypes.INTEGER.UNSIGNED,
         allowNull : false,
         primaryKey : true,
         autoIncrement : true,
         unique : true
     },    
-    userId: {
+    /* userId: {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
         references: {
@@ -30,7 +30,7 @@ Comment.init({
             model: 'Post',
             key: 'idPost'
         }
-    },
+    }, */
     commentDate: {
         type: DataTypes.DATE,
         allowNull: false
@@ -39,7 +39,7 @@ Comment.init({
         type: DataTypes.TEXT,
         allowNull: false
     },
-    userFirstName: {
+    /* userFirstName: {
         type: DataTypes.STRING,
         allowNull: false,
         references: {
@@ -54,11 +54,10 @@ Comment.init({
             model: 'User',
             key: 'lastName'
         }
-    }
+    } */
 }, {
     sequelize,
     modelName: 'Comment',
-    tableName: 'comment', // correspond à la table mySQL// 
     timestamps: false // évite de rajouter à l'insert des timestamp
 });
 

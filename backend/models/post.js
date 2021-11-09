@@ -4,20 +4,12 @@ const sequelize = require('../config/database');
 class Post extends Model {}
 
 Post.init ({
-    idPost: {
+    id: {
         type : DataTypes.INTEGER.UNSIGNED,
         allowNull : false,
         primaryKey : true,
         autoIncrement : true,
         unique : true
-    },
-    authorId: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull : false,
-        references : {
-            model: 'User',
-            key: 'idUser'
-        }
     },
     creationDate: {
         type : DataTypes.DATE,
@@ -25,6 +17,10 @@ Post.init ({
     },
     updateDate: {
         type : DataTypes.DATE,
+        allowNull : false
+    },
+    title: {
+        type : DataTypes.STRING,
         allowNull : false
     },
     description: {
@@ -38,7 +34,6 @@ Post.init ({
 }, {
     sequelize,
     modelName : 'Post', 
-    tableName: 'post', // correspond à la table mySQL// 
     timestamps: false // évite de rajouter à l'insert des timestamp
 });
 

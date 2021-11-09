@@ -8,7 +8,7 @@ const sequelize = require('../config/database');
 class Like extends Model {}
 
 Like.init({
-    user: {
+    /* user: {
         type: DataTypes.INTEGER.UNSIGNED,
         primaryKey: true,
         allowNull: false,
@@ -25,11 +25,10 @@ Like.init({
             model: 'Post',
             key: 'idPost'
         }
-    }
+    } */
 }, {
     sequelize,
     modelName: 'Like',
-    tableName: 'likes', // correspond à la table mySQL// 
     timestamps: false // évite de rajouter à l'insert des timestamp
 });
 

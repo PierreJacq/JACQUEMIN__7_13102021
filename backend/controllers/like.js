@@ -1,6 +1,4 @@
-const Like = require('../models/like')
-const Post = require('../models/Post');
-const User = require('../models/User');
+const {User, Post, Comment, Like} = require('../models/index')
 
 exports.addLike = (req, res) => {
     User.findOne({

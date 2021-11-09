@@ -4,7 +4,7 @@ const sequelize = require('../config/database');
 class User extends Model {}
 
 User.init({
-    idUser: {
+    id: {
         type : DataTypes.INTEGER.UNSIGNED,
         allowNull : false,
         primaryKey : true,
@@ -44,7 +44,6 @@ User.init({
 }, {
     sequelize,
     modelName : 'User', 
-    tableName: 'user', // correspond à la table mySQL// 
     timestamps: false // évite de rajouter à l'insert des timestamp
 });
 

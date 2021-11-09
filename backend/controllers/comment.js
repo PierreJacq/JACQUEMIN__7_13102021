@@ -1,7 +1,5 @@
 const moment = require('moment');
-const Comment = require('../models/comment');
-const Post = require('../models/Post');
-const User = require('../models/User');
+const {User, Post, Comment, Like} = require('../models/index')
 
 exports.createComment = (req, res) => {
     User.findOne({

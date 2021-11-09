@@ -1,10 +1,18 @@
 const moment = require('moment');
 const fs = require('fs');
-const Post = require('../models/Post');
-const User = require('../models/User');
+const {
+    User,
+    Post,
+    Comment,
+    Like
+} = require('../models/index')
 
 exports.getAllPosts = (req, res) => {
-    Post.findAll()
+    Post.findAll({
+            include: {
+                model: User
+            }
+        })
         .then((posts) => {
             res.status(200).json(posts)
         })
@@ -18,7 +26,7 @@ exports.getAllPosts = (req, res) => {
 exports.createPost = (req, res) => {
     User.findOne({
             where: {
-                idUser: req.body.authorId
+                id: req.body.authorId
             }
         })
         .then((user) => {
@@ -28,9 +36,10 @@ exports.createPost = (req, res) => {
                 })
             }
             Post.create({
-                    authorId: user.idUser,
+                    UserId: user.id,
                     creationDate: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
                     updateDate: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+                    title: req.body.title,
                     description: req.body.description,
                     URLimage: req.file ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}` : `${req.protocol}://${req.get("host")}/images/pikachu.jpg`
                 })
@@ -57,7 +66,10 @@ exports.createPost = (req, res) => {
 exports.getOnePost = (req, res) => {
     Post.findOne({
             where: {
-                idPost: req.params.id
+                id: req.params.id
+            },
+            include: { 
+                model : User
             }
         })
         .then((post) => {
