@@ -3,7 +3,7 @@ const {User, Post, Comment, Like} = require('../models/index')
 exports.addLike = (req, res) => {
     User.findOne({
             where: {
-                idUser: req.body.user
+                id: req.body.user
             }
         })
         .then((foundUser) => {
@@ -14,7 +14,7 @@ exports.addLike = (req, res) => {
             }
             Post.findOne({
                     where: {
-                        idPost: req.body.post
+                        id: req.body.post
                     }
                 })
                 .then((foundPost) => {
@@ -24,8 +24,8 @@ exports.addLike = (req, res) => {
                         })
                     }
                     Like.create({
-                            user: foundUser.idUser,
-                            post: foundPost.idPost
+                            UserId: foundUser.id,
+                            PostId: foundPost.id
                         })
                         .then(() => {
                             res.status(200).json({
@@ -54,7 +54,7 @@ exports.addLike = (req, res) => {
 exports.getPostLikes = (req, res) => {
     Post.findOne({
             where: {
-                idPost: req.params.id
+                id: req.body.post
             }
         })
         .then((foundPost) => {

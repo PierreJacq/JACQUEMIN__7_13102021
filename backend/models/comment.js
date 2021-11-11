@@ -15,22 +15,6 @@ Comment.init({
         autoIncrement : true,
         unique : true
     },    
-    /* userId: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false,
-        references: {
-            model: 'User',
-            key: 'idUser'
-        }
-    },
-    postId: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false,
-        references: {
-            model: 'Post',
-            key: 'idPost'
-        }
-    }, */
     commentDate: {
         type: DataTypes.DATE,
         allowNull: false
@@ -39,22 +23,6 @@ Comment.init({
         type: DataTypes.TEXT,
         allowNull: false
     },
-    /* userFirstName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        references: {
-            model: 'User',
-            key: 'firstName'
-        }
-    },
-    userLastName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        references: {
-            model: 'User',
-            key: 'lastName'
-        }
-    } */
 }, {
     sequelize,
     modelName: 'Comment',

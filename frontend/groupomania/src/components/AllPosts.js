@@ -31,5 +31,3 @@ const AllPosts = () => {
 };
 
 export default AllPosts;
-
-//const userToken = localStorage.getItem("token");

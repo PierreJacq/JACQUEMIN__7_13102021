@@ -8,17 +8,17 @@ const Like = require("./like");
 User.hasMany(Post, { onDelete: "CASCADE" });
 Post.belongsTo(User, { onDelete: "CASCADE" });
 
-/* Post.hasMany(Comment, { onDelete: "CASCADE" });
-Comment.belongsTo(Post, {onDelete: "CASCADE" }); */
+Post.hasMany(Comment, { onDelete: "CASCADE" });
+Comment.belongsTo(Post, {onDelete: "CASCADE" });
 
-/* User.hasMany(Comment , {onDelete: "CASCADE" });
-Comment.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });
+User.hasMany(Comment , {onDelete: "CASCADE" });
+Comment.belongsTo(User, {onDelete: "CASCADE" });
 
 User.hasMany(Like, { onDelete: "CASCADE" });
-Like.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });
+Like.belongsTo(User, {onDelete: "CASCADE" });
 
 Post.hasMany(Like, { onDelete: "CASCADE" });
-Like.belongsTo(Post, { foreignKey: "postId", onDelete: "CASCADE" }); */
+Like.belongsTo(Post, {onDelete: "CASCADE" });
 
 // ATTENTION CI-DESSOUS ON CASSE LA BASE
 
@@ -28,7 +28,7 @@ Like.belongsTo(Post, { foreignKey: "postId", onDelete: "CASCADE" }); */
     })
     .catch(() => {
         console.log("lol non");
-    }) */
+    })  */
 
 
 module.exports = { User, Post, Comment, Like}

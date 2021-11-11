@@ -4,7 +4,7 @@ const {User, Post, Comment, Like} = require('../models/index')
 exports.createComment = (req, res) => {
     User.findOne({
             where: {
-                idUser: req.body.userId
+                id: req.body.userId
             }
         })
         .then((foundAuthor) => {
@@ -15,7 +15,7 @@ exports.createComment = (req, res) => {
             }
             Post.findOne({
                     where: {
-                        idPost: req.body.postId
+                        id: req.body.postId
                     }
                 })
                 .then((foundPost) => {
@@ -25,12 +25,10 @@ exports.createComment = (req, res) => {
                         })
                     }
                     Comment.create({
-                            userId: foundAuthor.idUser,
-                            postId: foundPost.idPost,
+                            UserId: foundAuthor.id,
+                            PostId: foundPost.id,
                             commentDate: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-                            commentText: req.body.commentText,
-                            userFirstName: foundAuthor.firstName,
-                            userLastName: foundAuthor.lastName
+                            commentText: req.body.commentText
                         })
                         .then((comment) => {
                             res.status(200).json(comment)
@@ -59,7 +57,7 @@ exports.createComment = (req, res) => {
 exports.getAllComments = (req, res) => {
     Post.findOne({
             where: {
-                idPost: req.body.postId
+                id: req.body.postId
             }
         })
         .then((foundPost) => {
@@ -70,7 +68,7 @@ exports.getAllComments = (req, res) => {
             }
             Comment.findAll({
                     where: {
-                        postId: foundPost.idPost
+                        id: foundPost.idPost
                     }
                 })
                 .then((foundComments) => {
@@ -94,7 +92,7 @@ exports.getAllComments = (req, res) => {
 exports.modifyComment = (req, res) => {
     Comment.findOne({
             where: {
-                commentId: req.body.commentId
+                id: req.body.commentId
             }
         })
         .then((foundComment) => {
@@ -112,7 +110,7 @@ exports.modifyComment = (req, res) => {
                 .catch((error) => {
                     res.status(500).json({
                         error,
-                        error: "Internal server error" 
+                        error: "Internal server error"  
                     })
                 })
         })
@@ -127,7 +125,7 @@ exports.modifyComment = (req, res) => {
 exports.deleteComment = (req, res) => {
     Comment.findOne({
         where : {
-            commentId : req.body.commentId
+            id : req.body.commentId
         }
     })
         .then((foundComment) => {

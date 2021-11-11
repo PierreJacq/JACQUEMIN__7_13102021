@@ -9,9 +9,17 @@ const {
 
 exports.getAllPosts = (req, res) => {
     Post.findAll({
-            include: {
-                model: User
-            }
+            include: [
+                {
+                    model : User
+                },
+                {
+                    model : Comment
+                },
+                {
+                    model : Like
+                }
+            ]
         })
         .then((posts) => {
             res.status(200).json(posts)
@@ -97,7 +105,7 @@ exports.modifyPost = (req, res) => {
     };
     Post.findOne({
             where: {
-                idPost: req.params.id
+                id: req.params.id
             }
         })
         .then((foundPost) => {
@@ -135,7 +143,7 @@ exports.modifyPost = (req, res) => {
 exports.deletePost = (req, res) => {
     Post.findOne({
             where: {
-                idPost: req.params.id
+                id: req.params.id
             }
         })
         .then((foundPost) => {
