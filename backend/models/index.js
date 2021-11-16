@@ -28,7 +28,7 @@ Like.belongsTo(Post, {onDelete: "CASCADE" });
     })
     .catch(() => {
         console.log("lol non");
-    })  */
-
+    }) 
+ */
 
 module.exports = { User, Post, Comment, Like}

@@ -18,7 +18,8 @@ const SignIn = () => {
                 password : formData.password,
                 firstName: formData.firstName,
                 lastName : formData.lastName,
-                birthDate : formData.birthDate 
+                birthDate : formData.birthDate,
+                image : formData.image
             }
         })
         .then((res) => {
@@ -69,7 +70,16 @@ const SignIn = () => {
                 })} />
                 {errors.birthDate && <p className="message-erreur"> {errors.birthDate.message} </p>}
                 </label>
+
+                <label>Photo de profil
+                <input type="file" placeholder="Photo de profil" {...register("image", {
+                    required : { value : true, message: "Veuillez ajouter une photo de profil"}
+                })} />
+                {errors.image && <p className="message-erreur"> {errors.image.message} </p>}
+                </label>
+
                 <input type="submit" />
+
             </form>
         </div>
     );
