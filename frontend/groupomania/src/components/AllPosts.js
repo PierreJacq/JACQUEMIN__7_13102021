@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 const AllPosts = () => {
     
-    const { posts, setPosts} = useState([]);
+    const [posts, setPosts] = useState([]);
     
     
     useEffect(() => {
@@ -14,17 +14,30 @@ const AllPosts = () => {
             headers : {
                 'Authorization' : localStorage.getItem("token")
             }
-
         })
-            .then((res)=> {
-                console.log(res)
+            .then((res) => {
+                setPosts(res.data)
             })
-            .catch()
+            .catch((err) => {
+                throw err
+            })
     }, []);
-    
+
     return (
-        <div className="conteneur-posts">
-            
+        <div className="conteneur__posts">
+            {posts.map((post) => (
+                <div className="post">
+                    <div className="authorship">
+                        <div className="author-info">
+                            <div className="profile-pic"></div>
+                            <div className="author-name">{post.User.firstName} {post.User.lastName}</div>
+                        </div>
+
+                        <div className="author-privileges">
+                        </div>                  
+                    </div>
+                </div>
+            ))}
         </div>
     );
 

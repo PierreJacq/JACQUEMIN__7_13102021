@@ -5,22 +5,23 @@ const SignIn = () => {
 
     const { register, handleSubmit, formState :{errors}} = useForm({criteriaMode:"all"});
 
-    const onSubmit = (formData) => {
+    const onSubmit = (userInfo) => {
+        const bodyFormData = new FormData();
+        bodyFormData.append('login', userInfo.login);
+        bodyFormData.append('password', userInfo.password);
+        bodyFormData.append('firstName', userInfo.firstName);
+        bodyFormData.append('lastName', userInfo.lastName);
+        bodyFormData.append('birthDate', userInfo.birthDate);
+        bodyFormData.append('image', userInfo.image[0]);
+        
         axios({
             method: 'post',
             url : '/user/signup',
             baseURL : 'http://localhost:3000/api',
             headers : {
-                'Content-type' : "application/json"
+                'Content-type' : "multipart/form-data"
             },
-            data: {
-                login : formData.login,
-                password : formData.password,
-                firstName: formData.firstName,
-                lastName : formData.lastName,
-                birthDate : formData.birthDate,
-                image : formData.image
-            }
+            data: bodyFormData
         })
         .then((res) => {
             alert("Utilisateur créé avec succès !")
