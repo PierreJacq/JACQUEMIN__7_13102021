@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Post from "./Post";
 
 const AllPosts = () => {
     
@@ -26,17 +27,7 @@ const AllPosts = () => {
     return (
         <div className="conteneur__posts">
             {posts.map((post) => (
-                <div className="post">
-                    <div className="authorship">
-                        <div className="author-info">
-                            <div className="profile-pic"></div>
-                            <div className="author-name">{post.User.firstName} {post.User.lastName}</div>
-                        </div>
-
-                        <div className="author-privileges">
-                        </div>                  
-                    </div>
-                </div>
+                <Post post={post} />
             ))}
         </div>
     );

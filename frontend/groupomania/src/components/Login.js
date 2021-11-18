@@ -20,7 +20,7 @@ const Login = () => {
         })
         .then((res) => {
             window.localStorage.setItem("token", res.data.token);
-            window.localStorage.setItem("idUser", res.data.idUser);
+            window.localStorage.setItem("idUser", res.data.id);
             window.location = "/home";        
         })
         .catch(() => {
