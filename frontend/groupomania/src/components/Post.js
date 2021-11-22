@@ -1,16 +1,29 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import AddComment from './AddComment';
-import AddLike from './AddLike';
 import AllComments from './AllComments';
 
 const Post = (props) => {
     
     const {post} = props;
     
-    //gestion droits de suppression
+    //gestion utilisateur connecté
     const loggedUser =  parseInt(window.localStorage.getItem("idUser"));
 
-    //décompte des likes 
+    //---------------------------------------------------------
+    // Gestion des likes---------------------------------------
+    //---------------------------------------------------------
+    let initialLike;
+    useEffect(() => { 
+        console.log(loggedUser);
+        const checkedLikes = post.Likes;
+        initialLike = checkedLikes.some(like => like.UserId === loggedUser)
+        console.log(initialLike);
+    }, []);
+
+    const [mylikes, setLikes] = useState();
+
+
 
     return (
         <div className="post">
@@ -27,10 +40,11 @@ const Post = (props) => {
             </div>
             <div className="post-image"></div>
             <p className="post-description">{post.description}</p>
-            <div className="likes-counter">{post.Likes.length}</div>           
-            <div className="like-or-comment">
-                <AddLike />
-                <AddComment />
+            <div className="likes">
+                <div className="likes-counter">{post.Likes.length}</div>
+                
+                    <button>J'ai déjà liké cela</button>
+                
             </div>
             <div className="AllComments">
                 <AllComments />
