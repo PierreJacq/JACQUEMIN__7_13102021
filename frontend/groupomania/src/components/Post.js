@@ -1,7 +1,5 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import AddComment from './AddComment';
-import AllComments from './AllComments';
 
 const Post = (props) => {
     
@@ -13,17 +11,85 @@ const Post = (props) => {
     //---------------------------------------------------------
     // Gestion des likes---------------------------------------
     //---------------------------------------------------------
-    let initialLike;
-    useEffect(() => { 
-        console.log(loggedUser);
-        const checkedLikes = post.Likes;
-        initialLike = checkedLikes.some(like => like.UserId === loggedUser)
-        console.log(initialLike);
+    const checkedLikes = post.Likes;
+    const initialLike = checkedLikes.some(like => like.UserId === loggedUser)
+    
+    const [likeCount, setLikeCount] = useState(post.Likes.length);
+    const [iLikeIt, setLike] = useState(initialLike);
+    
+    const handleDislike = () => {
+        axios({
+            method : "DELETE",
+            url : '/like/',
+            baseURL :'http://localhost:3000/api',
+            headers : {
+                'Authorization' : localStorage.getItem("token"),
+                'content-type' : 'application/json'
+            },
+            data : {
+                UserId : loggedUser,
+                PostId : post.id
+            }
+        })
+            .then(() => {
+                setLike(false);
+                setLikeCount(likeCount - 1);
+                console.log("Like retiré avec succès")
+            })
+            .catch(() => {
+                alert("Cela n'a pas fonctionné")
+            })
+    };
+    const handleAddLike = () => {
+        axios({
+            method : "POST",
+            url : '/like/',
+            baseURL :'http://localhost:3000/api',
+            headers : {
+                'Authorization' : localStorage.getItem("token"),
+                'content-type' : 'application/json'
+            },
+            data : {
+                UserId : loggedUser,
+                PostId : post.id
+            }
+        })
+            .then(() => {
+                setLike(true);
+                setLikeCount(likeCount + 1);
+                console.log("Like ajouté avec succès")
+            })
+            .catch(() => {
+                alert("Cela n'a pas fonctionné")
+            })                
+};
+
+//---------------------------------------------------------
+// Gestion des Commentaires--------------------------------
+//---------------------------------------------------------
+    const  [AllComments, setAllComments] = useState([]);
+    useEffect(() => {
+        console.log(post.id);
+        console.log(AllComments);
+
+        axios({
+            method : 'get',
+            url : '/comment/',
+            baseURL : 'http://localhost:3000/api',
+            headers : {
+                'Authorization' : localStorage.getItem('token'),
+            },
+            data: {
+                PostId : post.id
+            }
+        })
+            .then((res)=> {
+                console.log(res.data)
+            })
+            .catch(() => {
+                console.log("C'est la requête qui pue du cul")
+            })
     }, []);
-
-    const [mylikes, setLikes] = useState();
-
-
 
     return (
         <div className="post">
@@ -40,14 +106,24 @@ const Post = (props) => {
             </div>
             <div className="post-image"></div>
             <p className="post-description">{post.description}</p>
+
             <div className="likes">
-                <div className="likes-counter">{post.Likes.length}</div>
-                
-                    <button>J'ai déjà liké cela</button>
-                
+                <div className="likes-counter">{likeCount}</div>
+                {iLikeIt
+                    ? <button onClick={handleDislike}>Je n'aime plus</button>
+                    : <button onClick={handleAddLike}> J'aime </button>
+                }              
             </div>
-            <div className="AllComments">
-                <AllComments />
+
+            <div className="allComments">
+                {AllComments.map((comment)=> (
+                    <div className="comment-origin">
+                        <div className="commentator">{comment.id}</div>
+                    </div>
+                ))}
+            </div>
+            <div className="addComment">
+
             </div>
         </div>
     );
