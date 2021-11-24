@@ -4,7 +4,7 @@ const {User, Post, Comment, Like} = require('../models/index')
 exports.createComment = (req, res) => {
     User.findOne({
             where: {
-                id: req.body.userId
+                id: req.body.UserId
             }
         })
         .then((foundAuthor) => {
@@ -15,7 +15,7 @@ exports.createComment = (req, res) => {
             }
             Post.findOne({
                     where: {
-                        id: req.body.postId
+                        id: req.body.PostId
                     }
                 })
                 .then((foundPost) => {
@@ -57,7 +57,7 @@ exports.createComment = (req, res) => {
 exports.getAllComments = (req, res) => {
     Post.findOne({
             where: {
-                id: req.body.postId
+                id: req.body.PostId
             }
         })
         .then((foundPost) => {
@@ -68,21 +68,24 @@ exports.getAllComments = (req, res) => {
             }
             Comment.findAll({
                     where: {
-                        id: foundPost.idPost
+                        PostId: foundPost.id
+                    }, 
+                    include: {
+                        model : User
                     }
                 })
                 .then((foundComments) => {
                     res.status(200).json(foundComments)
                 })
                 .catch((error) => {
-                    res.status(500).json({
+                    res.status(501).json({
                         error,
                         error: "Internal server error"
                     })
                 })
         })
         .catch((error) => {
-            res.status(500).json({
+            res.status(502).json({
                 error,
                 error: "Internal server error"
             })

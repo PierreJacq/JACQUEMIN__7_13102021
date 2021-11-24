@@ -3,7 +3,7 @@ const {User, Post, Comment, Like} = require('../models/index')
 exports.addLike = (req, res) => {
     User.findOne({
             where: {
-                id: req.body.user
+                id: req.body.UserId
             }
         })
         .then((foundUser) => {
@@ -14,7 +14,7 @@ exports.addLike = (req, res) => {
             }
             Post.findOne({
                     where: {
-                        id: req.body.post
+                        id: req.body.PostId
                     }
                 })
                 .then((foundPost) => {
@@ -93,8 +93,8 @@ exports.deleteLike = (req, res) => {
     // A voir si ma façon de traiter l'autorisation est correcte. La construction d'URL est un brin funky aussi
     Like.destroy({
             where: {
-                user: req.params.user,
-                post: req.params.post
+                UserId: req.body.UserId,
+                PostId: req.body.PostId
             }
         })
         .then(() => {
