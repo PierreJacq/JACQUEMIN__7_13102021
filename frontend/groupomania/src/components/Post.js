@@ -68,28 +68,31 @@ const Post = (props) => {
 // Gestion des Commentaires--------------------------------
 //---------------------------------------------------------
     const  [AllComments, setAllComments] = useState([]);
+
     useEffect(() => {
         console.log(post.id);
         console.log(AllComments);
-
+        
         axios({
             method : 'get',
             url : '/comment/',
             baseURL : 'http://localhost:3000/api',
             headers : {
-                'Authorization' : localStorage.getItem('token'),
-            },
-            data: {
+                'Authorization' : localStorage.getItem("token"),
+            },            
+            body: {
                 PostId : post.id
             }
         })
             .then((res)=> {
-                console.log(res.data)
+                console.log(res.data);
+
             })
             .catch(() => {
-                console.log("C'est la requête qui pue du cul")
+                console.log("Je tombe systématiquement ici")
+
             })
-    }, []);
+    }, [AllComments]);
 
     return (
         <div className="post">
@@ -118,7 +121,7 @@ const Post = (props) => {
             <div className="allComments">
                 {AllComments.map((comment)=> (
                     <div className="comment-origin">
-                        <div className="commentator">{comment.id}</div>
+                        <button>CHERCHE</button>
                     </div>
                 ))}
             </div>
