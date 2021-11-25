@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import React, { useEffect, useState } from 'react';
 
 const Post = (props) => {
@@ -68,6 +68,25 @@ const Post = (props) => {
 // Gestion des Commentaires--------------------------------
 //---------------------------------------------------------
     const  [AllComments, setAllComments] = useState([]);
+    
+    const addComment = (e) => {
+        const commentaire =         
+        axios({
+            method : 'post',
+            url : '/comment/',
+            baseURL : 'http://localhost:3000/api',
+            headers : {
+                'Authorization' : localStorage.getItem("token"),
+            },
+            data : {
+                UserId : loggedUser,
+                PostId : post.id,
+                commentText : ?????????????????????????
+            }
+        })
+            .then()
+            .catch()
+    }
 
     useEffect(() => {
         console.log(post.id);
@@ -75,24 +94,21 @@ const Post = (props) => {
         
         axios({
             method : 'get',
-            url : '/comment/',
+            url : '/comment/'+ post.id,
             baseURL : 'http://localhost:3000/api',
             headers : {
                 'Authorization' : localStorage.getItem("token"),
-            },            
-            body: {
-                PostId : post.id
             }
         })
             .then((res)=> {
-                console.log(res.data);
+                setAllComments(res.data);
 
             })
             .catch(() => {
-                console.log("Je tombe systématiquement ici")
+                console.log("Nope")
 
             })
-    }, [AllComments]);
+    }, []); 
 
     return (
         <div className="post">
@@ -119,14 +135,18 @@ const Post = (props) => {
             </div>
 
             <div className="allComments">
-                {AllComments.map((comment)=> (
-                    <div className="comment-origin">
-                        <button>CHERCHE</button>
+                {AllComments.map((comment) => (
+                    <div className="conteneurComment">
+                        <div className="commentAuthor">{comment.User.firstName} {comment.User.lastName}</div>
+                        <div>{comment.commentText}</div>
                     </div>
                 ))}
             </div>
             <div className="addComment">
-
+                <form onSubmit={addComment}>
+                    <input type="text" value="Ajouter un commentaire"></input>
+                    <input type="submit" value="Commenter"></input>
+                </form>
             </div>
         </div>
     );
