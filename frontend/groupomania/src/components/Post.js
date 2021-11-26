@@ -1,4 +1,5 @@
 import axios, { Axios } from 'axios';
+import {set, useForm} from "react-hook-form";
 import React, { useEffect, useState } from 'react';
 
 const Post = (props) => {
@@ -7,6 +8,30 @@ const Post = (props) => {
     
     //gestion utilisateur connecté
     const loggedUser =  parseInt(window.localStorage.getItem("idUser"));
+
+
+    //---------------------------------------------------------
+    // Gestion des posts---------------------------------------
+    //---------------------------------------------------------
+
+    const deletePost = (postToDelete) => {
+        console.log(postToDelete)
+        axios({
+            method : 'DELETE',
+            url : '/post/' + postToDelete,
+            baseURL :'http://localhost:3000/api',
+            headers : {
+                'Authorization' : localStorage.getItem("token"),
+            }
+        })
+            .then(()=> {
+                console.log('Post supprimé')
+                window.location.reload();
+            })
+            .catch(() => {
+                console.log("Le post n'a pas pu être supprimé")
+            })
+    }
 
     //---------------------------------------------------------
     // Gestion des likes---------------------------------------
@@ -64,13 +89,15 @@ const Post = (props) => {
             })                
 };
 
-//---------------------------------------------------------
-// Gestion des Commentaires--------------------------------
-//---------------------------------------------------------
+    //---------------------------------------------------------
+    // Gestion des Commentaires--------------------------------
+    //---------------------------------------------------------
+    const { register, handleSubmit, formState :{errors}} = useForm({criteriaMode:"all"});
     const  [AllComments, setAllComments] = useState([]);
     
     const addComment = (e) => {
-        const commentaire =         
+        const commentaire = e.commentaire;
+        
         axios({
             method : 'post',
             url : '/comment/',
@@ -81,13 +108,42 @@ const Post = (props) => {
             data : {
                 UserId : loggedUser,
                 PostId : post.id,
-                commentText : ?????????????????????????
+                commentText : commentaire
             }
         })
-            .then()
-            .catch()
+            .then(() => {
+                console.log('Commentaire ajouté');
+                setReload(!reload)       
+            })
+            .catch(() => {
+                console.log("Le commentaire n'a pas pu être ajouté")
+            })
     }
 
+    const deleteComment = (goodId) => {
+        console.log(goodId);
+        axios({
+            method: 'delete',
+            url : '/comment/'+ goodId,
+            baseURL: 'http://localhost:3000/api',
+            headers : {
+                'Authorization' : localStorage.getItem("token")
+            }
+        })
+            .then(() => {
+                console.log("Commentaire supprimé");
+                setReload(!reload);
+            })
+            .catch(()=> {
+                console.log("Le commentaire n'a pas pu être supprimé")
+            })
+    }
+
+    //---------------------------------------------------------
+    // Gestion du useEffect------------------------------------
+    //---------------------------------------------------------
+    const [reload, setReload] = useState(false);
+    
     useEffect(() => {
         console.log(post.id);
         console.log(AllComments);
@@ -104,11 +160,12 @@ const Post = (props) => {
                 setAllComments(res.data);
 
             })
-            .catch(() => {
-                console.log("Nope")
-
+            .catch((err) => {
+                console.log(err);
             })
-    }, []); 
+    },[reload]); 
+
+
 
     return (
         <div className="post">
@@ -119,7 +176,7 @@ const Post = (props) => {
                 </div>
                 <div className="post-delete">
                     {post.UserId === loggedUser && 
-                        <button className="delete-button">Supprimer</button>
+                        <button onClick={() => deletePost(post.id)} className="delete-button">Supprimer</button>
                     }
                 </div>                   
             </div>
@@ -135,17 +192,23 @@ const Post = (props) => {
             </div>
 
             <div className="allComments">
-                {AllComments.map((comment) => (
-                    <div className="conteneurComment">
+                {AllComments.map(comment => (
+                    <div key= {comment.id} className="conteneurComment">
                         <div className="commentAuthor">{comment.User.firstName} {comment.User.lastName}</div>
                         <div>{comment.commentText}</div>
+                        {loggedUser === comment.User.id &&
+                            <button onClick={() => deleteComment(comment.id)}>Del{comment.id}</button>
+                        }
                     </div>
                 ))}
             </div>
             <div className="addComment">
-                <form onSubmit={addComment}>
-                    <input type="text" value="Ajouter un commentaire"></input>
-                    <input type="submit" value="Commenter"></input>
+                <form onSubmit={handleSubmit(addComment)}>
+                    <input type="text" defaultValue="" placeholder="Ajouter un commentaire"{...register("commentaire", {
+                        minLength : {value : 1, message :"Votre commentaire ne peut pas être vide"}
+                    })}/>
+                    {errors.commentaire && <p className="message-erreur"> {errors.commentaire.message} </p>}
+                    <input type="submit" value="Commenter"/>
                 </form>
             </div>
         </div>
