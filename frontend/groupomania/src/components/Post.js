@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 const Post = (props) => {
     
     const {post} = props;
+    const refresh = props.refresh
     
     //gestion utilisateur connecté
     const loggedUser =  parseInt(window.localStorage.getItem("idUser"));
@@ -26,7 +27,7 @@ const Post = (props) => {
         })
             .then(()=> {
                 console.log('Post supprimé')
-                window.location.reload();
+                refresh();
             })
             .catch(() => {
                 console.log("Le post n'a pas pu être supprimé")

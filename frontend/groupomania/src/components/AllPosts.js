@@ -1,12 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import NewPost from "./NewPost";
 import Post from "./Post";
 
 const AllPosts = () => {
     
     const [posts, setPosts] = useState([]);
+    const [postsReload, setPostsReload] = useState(false);
     
-    
+    const refreshPosts = () => {
+        setPostsReload(!postsReload);
+    }
+
     useEffect(() => {
         axios({
             method: 'get',
@@ -22,12 +27,13 @@ const AllPosts = () => {
             .catch((err) => {
                 throw err
             })
-    }, []);
+    }, [postsReload]);
 
     return (
         <div className="conteneur__posts">
+            <NewPost refresh={refreshPosts}/>
             {posts.map((post) => (
-                <Post post={post} key={post.id} />
+                <Post post={post} key={post.id} refresh={refreshPosts} />
             ))}
         </div>
     );
