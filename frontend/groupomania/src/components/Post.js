@@ -1,5 +1,5 @@
-import axios, { Axios } from 'axios';
-import {set, useForm} from "react-hook-form";
+import axios from 'axios';
+import {useForm} from "react-hook-form";
 import React, { useEffect, useState } from 'react';
 
 const Post = (props) => {
@@ -146,8 +146,6 @@ const Post = (props) => {
     const [reload, setReload] = useState(false);
     
     useEffect(() => {
-        console.log(post.id);
-        console.log(AllComments);
         
         axios({
             method : 'get',

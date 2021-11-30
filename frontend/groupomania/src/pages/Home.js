@@ -1,5 +1,4 @@
 import AllPosts from "../components/AllPosts";
-import NewPost from "../components/NewPost";
 import Navigation from "../layout/Navigation";
 
 const Home = () => {

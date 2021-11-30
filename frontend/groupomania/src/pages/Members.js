@@ -1,3 +1,4 @@
+import AllMembers from "../components/AllMembers";
 import Navigation from "../layout/Navigation";
 
 const Members = () => {
@@ -5,6 +6,7 @@ const Members = () => {
         <div className="conteneur-members">
             <Navigation/>
             <p>Je suis une page qui affiche tous les membres de l'entreprise</p>
+            <AllMembers/>
         </div>
     );
 };
