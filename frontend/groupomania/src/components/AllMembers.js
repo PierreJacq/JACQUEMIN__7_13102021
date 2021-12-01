@@ -24,12 +24,12 @@ const AllMembers = () => {
     },[]);
 
     return (
-        <div className="conteneur__members">
+        <div className="cont__members">
             {members.map((member) => (
-                <div className="carte__membre" key={member.id}>
-                    <div className="carte__photo"></div>
-                    <div className="carte__infos">
-                        <p className="carte__name">{member.firstName} {member.lastName}</p>
+                <div className="card__member" key={member.id}>
+                    <div className="card__photo"></div>
+                    <div className="card__infos">
+                        <p className="card__name">{member.firstName} {member.lastName}</p>
                         <p className="birthdate">{member.birthDate}</p>
                     </div>
                 </div>

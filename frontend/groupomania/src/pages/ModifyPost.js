@@ -1,14 +1,13 @@
 import React from 'react';
 import Navigation from '../layout/Navigation';
 
-const NotFound = () => {
+const ModifyPost = () => {
     return (
-        <div className="conteneur-404">
+        <div className="conteneur-modify">
             <Navigation/>
-            <p>404, c'est pas de bol tiens</p>
-
+            lul
         </div>
     );
 };
 
-export default NotFound;
+export default ModifyPost;

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {useForm} from "react-hook-form";
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Post = (props) => {
     
@@ -32,6 +33,11 @@ const Post = (props) => {
             .catch(() => {
                 console.log("Le post n'a pas pu être supprimé")
             })
+    }
+
+    const modifyPostPath = () => {
+        const path = "/modifypost/";
+        path.push(post.id)
     }
 
     //---------------------------------------------------------
@@ -144,9 +150,8 @@ const Post = (props) => {
     // Gestion du useEffect------------------------------------
     //---------------------------------------------------------
     const [reload, setReload] = useState(false);
-    
+
     useEffect(() => {
-        
         axios({
             method : 'get',
             url : '/comment/'+ post.id,
@@ -162,7 +167,8 @@ const Post = (props) => {
             .catch((err) => {
                 console.log(err);
             })
-    },[reload]); 
+    },[reload, post.id]); // a voir si l'ajout de post.id comme dependency pose problème ou bien non
+    
 
 
 
@@ -173,9 +179,12 @@ const Post = (props) => {
                     <div className="profile-pic"></div>
                     <div className="author-name">{post.User.firstName} {post.User.lastName}</div>
                 </div>
-                <div className="post-delete">
-                    {post.UserId === loggedUser && 
+                <div className="post-alter">
+                    {post.UserId === loggedUser &&
+                    <>
+                        <Link to={modifyPostPath}>Modifier</Link> 
                         <button onClick={() => deletePost(post.id)} className="delete-button">Supprimer</button>
+                    </>
                     }
                 </div>                   
             </div>

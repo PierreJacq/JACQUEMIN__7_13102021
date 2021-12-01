@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Members from "./pages/Members";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
+import ModifyPost from "./pages/ModifyPost";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/home" exact component={Home}/>
         <Route path="/members" exact component={Members}/>
         <Route path="/profile" exact component={Profile}/>
+        <Route path="/modifyPost/:id" component={ModifyPost}/>
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter> 

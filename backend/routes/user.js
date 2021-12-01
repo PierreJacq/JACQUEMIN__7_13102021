@@ -23,7 +23,7 @@ router.post('/login', userCtrl.login);
 
 router.get('/', auth, userCtrl.getAllUsers); 
 router.get('/:id', auth, userCtrl.getOneUser); 
-router.put('/:id', auth, userCtrl.modifyOneUser); 
+router.put('/:id', auth, multer, userCtrl.modifyOneUser); 
 router.delete('/:id', auth, userCtrl.deleteOneUser); 
 
 module.exports = router;

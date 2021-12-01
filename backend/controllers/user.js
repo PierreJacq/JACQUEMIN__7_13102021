@@ -113,7 +113,7 @@ exports.modifyOneUser = (req, res) => {
         ...req.body,
         URLprofile: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : {
-        ...req.body
+        ...req.body        
     };
     User.findOne({
             where: {
@@ -127,10 +127,14 @@ exports.modifyOneUser = (req, res) => {
                 })
             }
             foundUser.update({
-                    ...userObject
+                    ...userObject,
+
                 })
                 .then((user) => {
-                    res.status(200).json(user)
+                    res.status(200).json({
+                        user,
+                        userObject
+                    })
                 })
                 .catch((error) => {
                     res.status(505).json({
