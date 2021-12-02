@@ -34,12 +34,6 @@ const Post = (props) => {
                 console.log("Le post n'a pas pu être supprimé")
             })
     }
-
-    const modifyPostPath = () => {
-        const path = "/modifypost/";
-        path.push(post.id)
-    }
-
     //---------------------------------------------------------
     // Gestion des likes---------------------------------------
     //---------------------------------------------------------
@@ -182,7 +176,7 @@ const Post = (props) => {
                 <div className="post-alter">
                     {post.UserId === loggedUser &&
                     <>
-                        <Link to={modifyPostPath}>Modifier</Link> 
+                        <Link to={`/modifypost/${post.id}`}>Modifier</Link> 
                         <button onClick={() => deletePost(post.id)} className="delete-button">Supprimer</button>
                     </>
                     }
