@@ -8,8 +8,12 @@ const Post = (props) => {
     const {post} = props;
     const refresh = props.refresh
     
-    //gestion utilisateur connecté
+    //---------------------------------------------------------
+    // Gestion utilisateur connecté----------------------------
+    //---------------------------------------------------------
     const loggedUser =  parseInt(window.localStorage.getItem("idUser"));
+    const userIsAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+
 
 
     //---------------------------------------------------------
@@ -177,11 +181,14 @@ const Post = (props) => {
                     {post.UserId === loggedUser &&
                     <>
                         <Link to={`/modifypost/${post.id}`}>Modifier</Link> 
-                        <button onClick={() => deletePost(post.id)} className="delete-button">Supprimer</button>
                     </>
+                    }
+                    {(post.UserId === loggedUser || userIsAdmin === true  )&&
+                        <button onClick={() => deletePost(post.id)} className="delete-button">Supprimer</button>
                     }
                 </div>                   
             </div>
+            <h2 className="post__title">{post.title}</h2>
             <div className="post-image"></div>
             <p className="post-description">{post.description}</p>
 
@@ -199,7 +206,7 @@ const Post = (props) => {
                         <div className="commentAuthor">{comment.User.firstName} {comment.User.lastName}</div>
                         <div>{comment.commentText}</div>
                         {loggedUser === comment.User.id &&
-                            <button onClick={() => deleteComment(comment.id)}>Del{comment.id}</button>
+                            <button onClick={() => deleteComment(comment.id)}>Del</button>
                         }
                     </div>
                 ))}

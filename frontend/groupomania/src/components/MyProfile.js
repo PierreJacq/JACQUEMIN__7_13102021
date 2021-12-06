@@ -10,7 +10,6 @@ const MyProfile = () => {
     const [profileData, setProfileData] = useState([]);
     const [firstNameActive, setFirstNameActive] = useState(false);
     const [lastNameActive, setLastNameActive] = useState(false);
-    const [passwordActive, setPasswordActive] = useState(false);
     const [birthDateActive, setBirthDatedActive] = useState(false);
     const [imageActive, setImageActive] = useState(false);
     
@@ -19,9 +18,6 @@ const MyProfile = () => {
     };
     const toggleLastName = () => {
         setLastNameActive(!lastNameActive)
-    };
-    const togglePassword = () => {
-        setPasswordActive(!passwordActive)
     };
     const toggleBirthDate = () => {
         setBirthDatedActive(!birthDateActive)
@@ -41,9 +37,6 @@ const MyProfile = () => {
         const bodyFormData = new FormData();
         if(userInfo.login){
             bodyFormData.append('login', userInfo.login);
-        }
-        if(userInfo.password){
-            bodyFormData.append('password', userInfo.password);
         }
         if(userInfo.firstName){
             bodyFormData.append('firstName', userInfo.firstName);
@@ -71,12 +64,11 @@ const MyProfile = () => {
         .then((res) => {
             setFirstNameActive(false);
             setLastNameActive(false);
-            setPasswordActive(false);
             setBirthDatedActive(false);
             setImageActive(false);
         })
         .catch(() =>{
-            alert("Ce login est déjà utilisé !")
+            alert("Les infos n'ont pas pu être mises à jour!")
         })
     };
 
@@ -100,7 +92,7 @@ const MyProfile = () => {
             .catch(() => {
                 console.log('User infos could not be fetched')
             })
-    },[firstNameActive, lastNameActive, passwordActive, birthDateActive, imageActive])
+    },[firstNameActive, lastNameActive, birthDateActive, imageActive])
 
 
     return (
@@ -166,25 +158,6 @@ const MyProfile = () => {
                             <p>Nom</p>
                             <p>{profileData.lastName}</p>
                             <button onClick={toggleLastName}>Modifier</button>
-                        </div>
-                }
-                {passwordActive 
-                    ?
-                        <>
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                            <input type="password" placeholder="Nouveau mot de passe" {...register("password", {
-                            required : {value : true, message : "Veuillez créer un mot de passe"},
-                            minLength : {value : 8, message :"Votre mot de passe doit contenir au moins 8 caractères"},
-                            maxLength : {value :44, message : "Votre mot de passe ne peut excéder 44 caractères"}})}/>
-                            {errors.password && <p className="message-erreur"> {errors.password.message} </p>}
-                                <input type="submit"/>
-                                <button onClick={togglePassword}>Annuler</button>
-                            </form>
-                        </>
-                    : 
-                        <div className="card__Password">
-                            <p>Mot de passe</p>
-                            <button onClick={togglePassword}>Modifier</button>
                         </div>
                 }
                 {birthDateActive 

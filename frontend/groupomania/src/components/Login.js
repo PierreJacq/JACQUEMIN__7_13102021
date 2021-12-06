@@ -21,6 +21,7 @@ const Login = () => {
         .then((res) => {
             window.localStorage.setItem("token", res.data.token);
             window.localStorage.setItem("idUser", res.data.id);
+            window.localStorage.setItem("isAdmin", res.data.isAdmin);
             window.location = "/home";        
         })
         .catch(() => {
@@ -29,8 +30,8 @@ const Login = () => {
     };
 
     return (
-        <div className="login">
-            <h1> Connexion </h1>
+        <div className="formStyle">
+            <h2> Connexion </h2>
             <form onSubmit={handleSubmit(onSubmit)}>
 
                 <input type="text" placeholder="Login" {...register("login", { required: true})}/>
@@ -39,7 +40,7 @@ const Login = () => {
                 <input type="password" placeholder="Mot de passe" {...register("password", { required : true})} />
                 {errors.password && <p className="message-erreur"> Veuillez donner votre mot de passe</p>}
 
-                <input type="submit" />
+                <input type="submit" className="button-auth" value="Se connecter" />
             </form>
         </div>
     );

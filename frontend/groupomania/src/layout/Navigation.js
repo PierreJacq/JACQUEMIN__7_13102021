@@ -2,6 +2,10 @@ import { NavLink } from "react-router-dom";
 import Logo from "./Logo";
 
 const Navigation = () => {
+    const emptyStorage = () => {
+        localStorage.clear();
+    }
+
     return (
         <div className="navigation">
             <Logo/>
@@ -15,6 +19,9 @@ const Navigation = () => {
                 </NavLink>
                 <NavLink exact to="/profile" activeClassName="nav-active">
                     Mon profil
+                </NavLink>
+                <NavLink exact to="/" onClick={emptyStorage}>
+                    Déconnexion
                 </NavLink>
             </div>
         </div>

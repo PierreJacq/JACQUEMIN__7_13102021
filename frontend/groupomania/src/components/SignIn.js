@@ -32,8 +32,8 @@ const SignIn = () => {
     };
 
     return (
-        <div className="signin">
-            <h1> Inscription </h1>
+        <div className="formStyle">
+            <h2> Inscription </h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input type="text" placeholder="Prénom" {...register("firstName", { 
                     required : {value :true , message: "Veuillez renseigner votre prénom" },
@@ -79,7 +79,7 @@ const SignIn = () => {
                 {errors.image && <p className="message-erreur"> {errors.image.message} </p>}
                 </label>
 
-                <input type="submit" />
+                <input type="submit" className="button-auth" value="S'inscrire" />
 
             </form>
         </div>

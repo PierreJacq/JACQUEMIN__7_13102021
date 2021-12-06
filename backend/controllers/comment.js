@@ -4,9 +4,13 @@ const {
     Post,
     Comment,
     Like
-} = require('../models/index')
+} = require('../models/index');
+const checkAdminRights = require('../utils/checkAdminRights');
+const checkAuthorId = require('../utils/checkAuthorId');
+
 
 exports.createComment = (req, res) => {
+    const isRequestFromUser = checkAuthorId(req);
     User.findOne({
             where: {
                 id: req.body.UserId
@@ -18,41 +22,47 @@ exports.createComment = (req, res) => {
                     error: "This user doesn't exist"
                 })
             }
-            Post.findOne({
-                    where: {
-                        id: req.body.PostId
-                    }
-                })
-                .then((foundPost) => {
-                    if (!foundPost) {
-                        return res.status(404).json({
-                            error: "This post doesn't exist"
-                        })
-                    }
-                    Comment.create({
-                            UserId: foundAuthor.id,
-                            PostId: foundPost.id,
-                            commentDate: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-                            commentText: req.body.commentText
-                        })
-                        .then((comment) => {
-                            res.status(200).json({
-                                comment,
-                                message: "Comment added !"
-                            })
-                        })
-                        .catch((error) => {
-                            res.status(400).json({
-                                error: 'Could not create new comment',
-                                error
-                            })
-                        })
-                })
-                .catch(() => {
-                    res.status(500).json({
-                        error: "Internal server error"
+            if (isRequestFromUser == foundAuthor.id) {
+                Post.findOne({
+                        where: {
+                            id: req.body.PostId
+                        }
                     })
-                })
+                    .then((foundPost) => {
+                        if (!foundPost) {
+                            return res.status(404).json({
+                                error: "This post doesn't exist"
+                            })
+                        }
+                        Comment.create({
+                                UserId: foundAuthor.id,
+                                PostId: foundPost.id,
+                                commentDate: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+                                commentText: req.body.commentText
+                            })
+                            .then((comment) => {
+                                res.status(200).json({
+                                    comment,
+                                    message: "Comment added !"
+                                })
+                            })
+                            .catch((error) => {
+                                res.status(400).json({
+                                    error: 'Could not create new comment',
+                                    error
+                                })
+                            })
+                    })
+                    .catch(() => {
+                        res.status(500).json({
+                            error: "Internal server error"
+                        })
+                    })
+                } else {
+                    return res.status(401).json({
+                        error
+                    })
+                }
         })
         .catch((error) => {
             res.status(500).json({
@@ -60,7 +70,7 @@ exports.createComment = (req, res) => {
                 error: 'Internal server error'
             })
         })
-};
+}; 
 
 exports.getAllComments = (req, res) => {
     Post.findOne({
@@ -101,6 +111,7 @@ exports.getAllComments = (req, res) => {
 };
 
 exports.modifyComment = (req, res) => {
+    const isRequestFromUser = checkAuthorId(req);
     Comment.findOne({
             where: {
                 id: req.body.commentId
@@ -112,6 +123,7 @@ exports.modifyComment = (req, res) => {
                     error: "This comment doesn't exist"
                 })
             }
+            if (isRequestFromUser == foundComment.UserId) {
             foundComment.update({
                     commentText: req.body.commentText
                 })
@@ -124,6 +136,11 @@ exports.modifyComment = (req, res) => {
                         error: "Internal server error"
                     })
                 })
+            } else {
+                return res.status(401).json({
+                    error
+                })
+            }
         })
         .catch((error) => {
             res.status(500).json({
@@ -134,17 +151,24 @@ exports.modifyComment = (req, res) => {
 };
 
 exports.deleteComment = (req, res) => {
+    const isRequestFromUser = checkAuthorId(req);
     Comment.findOne({
             where: {
                 id: req.params.id
             }
         })
         .then((foundComment) => {
-            foundComment.destroy();
-            return res.status(200).json({
-                message: "Post successfuly deleted"
-            })
-    })
+            if (isRequestFromUser == foundComment.UserId){
+                foundComment.destroy();
+                return res.status(200).json({
+                    message: "Post successfuly deleted"
+                })
+            } else {
+                return res.status(401).json({
+                    error
+                })
+            }
+        })
         .catch((error) => {
             res.status(400).json({
                 error: 'Could not delete new comment',

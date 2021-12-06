@@ -4,10 +4,12 @@ import SignIn from "../components/SignIn";
 const Authentification = () => {
     return (
         <div className="authentification">
-            <img src="./img/icon-redim.png" alt="Logo Groupomania"/>
-            <div className="formulaires">
+            <div className="authentification__titre">
+                <i class="fas fa-globe"></i>
+                <h1>Groupomania</h1>
+            </div>
+            <div className="forms__container">
                 <Login />
-                <div className="auth__separateur"></div>
                 <SignIn />
             </div>
         </div>
