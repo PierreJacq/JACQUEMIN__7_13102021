@@ -1,3 +1,4 @@
+import moment from 'moment';
 import axios from 'axios';
 import {useForm} from "react-hook-form";
 import React, { useEffect, useState } from 'react';
@@ -169,57 +170,62 @@ const Post = (props) => {
     
 
 
-
     return (
         <div className="post">
-            <div className="authorship">
+            <div className="post__authorship">
                 <div className="author-info"> 
-                    <div className="profile-pic"></div>
-                    <div className="author-name">{post.User.firstName} {post.User.lastName}</div>
+                    <img className="profile-pic" src= {post.User.URLprofile}/>
+                    <div className="name&date">
+                        <div className="author-name">{post.User.firstName} {post.User.lastName}</div>
+                        <div className="post-creation-date">{moment(post.creationDate).format('lll')}</div>
+                    </div>
                 </div>
                 <div className="post-alter">
                     {post.UserId === loggedUser &&
                     <>
-                        <Link to={`/modifypost/${post.id}`}>Modifier</Link> 
+                        <Link to={`/modifypost/${post.id}`}><i class="fas fa-edit"></i></Link> 
                     </>
                     }
                     {(post.UserId === loggedUser || userIsAdmin === true  )&&
-                        <button onClick={() => deletePost(post.id)} className="delete-button">Supprimer</button>
+                        <i onClick={() => deletePost(post.id)}  className="fas fa-trash-alt"></i>
                     }
                 </div>                   
             </div>
             <h2 className="post__title">{post.title}</h2>
-            <div className="post-image"></div>
-            <p className="post-description">{post.description}</p>
-
+            <img className="post__image" src= {post.URLimage}/>
+            <p className="post__description">{post.description}</p>
             <div className="likes">
-                <div className="likes-counter">{likeCount}</div>
+                <div className="likes--counter">{likeCount} likes</div>
                 {iLikeIt
-                    ? <button onClick={handleDislike}>Je n'aime plus</button>
-                    : <button onClick={handleAddLike}> J'aime </button>
+                    ? <div className="likes--button" onClick={handleDislike}><i class="fas fa-thumbs-down"></i>Je n'aime plus</div>
+                    : <div className="likes--button" onClick={handleAddLike}><i class="fas fa-thumbs-up"></i>J'aime </div>
                 }              
             </div>
 
             <div className="allComments">
                 {AllComments.map(comment => (
-                    <div key= {comment.id} className="conteneurComment">
-                        <div className="commentAuthor">{comment.User.firstName} {comment.User.lastName}</div>
-                        <div>{comment.commentText}</div>
-                        {loggedUser === comment.User.id &&
-                            <button onClick={() => deleteComment(comment.id)}>Del</button>
-                        }
+                    <div key= {comment.id} className="comment">
+                        <div className="comment--infos">
+                            <img className="comment--AuthorImg" src={comment.User.URLprofile}/>
+                            <div className="comment--authorDelete">
+                                <div className="comment--Author"><strong>{comment.User.firstName} {comment.User.lastName}</strong> a commenté :</div>
+                                {loggedUser === comment.User.id &&
+                                    <i onClick={() => deleteComment(comment.id)} className="fas fa-trash-alt"></i>
+                                }
+                            </div>
+                        </div>
+                        <div className="comment--text">{comment.commentText}</div>
+                        
                     </div>
                 ))}
             </div>
-            <div className="addComment">
-                <form onSubmit={handleSubmit(addComment)}>
-                    <input type="text" defaultValue="" placeholder="Ajouter un commentaire"{...register("commentaire", {
+                <form className="addComment" onSubmit={handleSubmit(addComment)}>
+                    <input className="comment--input" type="text" defaultValue="" placeholder="Ajouter un commentaire"{...register("commentaire", {
                         minLength : {value : 1, message :"Votre commentaire ne peut pas être vide"}
                     })}/>
                     {errors.commentaire && <p className="message-erreur"> {errors.commentaire.message} </p>}
-                    <input type="submit" value="Commenter"/>
+                    <input  className="comment--button" type="submit" value="Commenter"/>
                 </form>
-            </div>
         </div>
     );
 };

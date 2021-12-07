@@ -6,3 +6,23 @@
 h1 {
     color: $color-main
 }
+
+.fas.fa-edit{
+    color: $color-dark-accent;
+}
+
+.fas.fa-trash-alt{
+    color: $color-main;
+    margin-left: .5rem;
+    &:hover{
+        cursor: pointer;
+    }
+}
+.fas.fa-thumbs-up{
+    color: $color-light;
+    margin-right: .5rem;
+}
+.fas.fa-thumbs-down{
+    color: $color-light;
+    margin-right: .5rem;
+}

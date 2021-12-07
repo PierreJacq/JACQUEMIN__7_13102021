@@ -88,9 +88,9 @@ exports.getAllComments = (req, res) => {
                     where: {
                         PostId: foundPost.id
                     },
-                    include: {
+                    include: [{
                         model: User
-                    }
+                    }]
                 })
                 .then((foundComments) => {
                     res.status(200).json(foundComments)

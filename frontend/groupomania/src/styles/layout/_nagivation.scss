@@ -1,9 +1,27 @@
 .navigation{
     display : flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
-    max-height: 50px;
+    max-height: 3.5rem;
+    background-color: $color-dark-shades;
+    padding: .5rem 0 .5rem 0;
 };
+
+.navigation__logo{
+    display: flex;
+    align-items: center;
+        & i{
+            font-size: 1.5rem;
+            color: $color-light;
+            margin-right: 0.4rem;
+        }
+        & h1 {
+            font-size: 1.5rem;
+            margin-left: 0.4rem;
+            color: $color-light;
+        }
+}
 
 .navigation__menu{
     display: flex;
@@ -13,11 +31,18 @@
     & a {
         text-decoration: none;
         font-weight: 600;
-        color: $color-black;
-        padding: 10px;
+        color: $color-light;
+        padding: .8rem;
+        margin: .1rem;
+        &:hover{
+            color: $color-dark-shades;
+            background-color: $color-light-accent;
+            border-radius: 2rem;
+            }
     }
     .nav-active {
-        color: $color-red;
-        border-bottom: 2px solid $color-red;
+        color: $color-dark-shades;
+        background-color: $color-light;
+        border-radius: 2rem;
     }
 }

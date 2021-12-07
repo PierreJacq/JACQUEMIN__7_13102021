@@ -1,4 +1,3 @@
-const moment = require('moment');
 const fs = require('fs');
 const {
     User,
@@ -16,12 +15,13 @@ exports.getAllPosts = (req, res) => {
                     model: User
                 },
                 {
-                    model: Comment
+                    model: Comment, include: [{model : User}]
                 },
                 {
                     model: Like
                 }
-            ]
+            ],
+            order : [[ 'updateDate', 'DESC']]
         })
         .then((posts) => {
             res.status(200).json(posts)
@@ -49,8 +49,8 @@ exports.createPost = (req, res) => {
             if (isRequestFromUser == user.id) {
                 Post.create({
                         UserId: user.id,
-                        creationDate: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
-                        updateDate: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+                        creationDate: Date.now(),
+                        updateDate: Date.now(),
                         title: req.body.title,
                         description: req.body.description,
                         URLimage: req.file ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}` : `${req.protocol}://${req.get("host")}/images/pikachu.jpg`
@@ -126,7 +126,7 @@ exports.modifyPost = (req, res) => {
             }
             if (isRequestFromUser == foundPost.UserId) {
                 foundPost.update({
-                        updateDate: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'),
+                        updateDate: Date.now(),
                         ...postObject
                     })
                     .then((updatedPost) => {

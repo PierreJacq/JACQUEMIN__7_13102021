@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-import Logo from "./Logo";
 
 const Navigation = () => {
     const emptyStorage = () => {
@@ -8,8 +7,11 @@ const Navigation = () => {
 
     return (
         <div className="navigation">
-            <Logo/>
-            
+            <NavLink to="/home" className="navigation__logo">
+                <i class="fas fa-globe"></i>
+                <h1>Groupomania</h1>            
+            </NavLink>
+
             <div className="navigation__menu">
                 <NavLink exact to="/home" activeClassName="nav-active">
                     Accueil

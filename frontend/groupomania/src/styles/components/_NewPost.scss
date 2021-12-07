@@ -1,0 +1,45 @@
+.newPostCard{
+    max-width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $color-main;
+    border-radius: 2rem;
+    & h1 {
+        font-size: 1.3rem;
+        color:$color-light;
+    }
+    & form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: .4rem;    
+        & input{ 
+            margin: 0.5rem;
+            height: 2rem;
+            font-size: 0.9rem;
+            border: 1px solid $color-dark-accent;
+            border-radius: 8px;
+            &:hover{
+                cursor: pointer;
+                background-color: $color-light-accent;
+                transition: 0.3s;
+            }
+        }
+        & .newPost--title{
+            width: 80%;
+        }
+        & .newPost--description{
+            width: 80%;
+            height: 5rem;
+        }
+
+        & label {
+            color : $color-light;
+        }
+        & .message-erreur{
+            color: $color-light;
+            margin: 0.2rem;
+        }
+    }
+}
