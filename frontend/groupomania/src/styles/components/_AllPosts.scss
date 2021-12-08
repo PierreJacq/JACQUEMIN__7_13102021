@@ -29,6 +29,9 @@
         display: flex;
         align-items: center;
     }
+    & .name-date{
+        margin-left: .5rem;
+    }
     & .post-creation-date{
         margin : .5rem 0;
         font-size: .7rem;

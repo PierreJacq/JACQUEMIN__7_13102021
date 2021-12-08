@@ -1,5 +1,6 @@
 import {useForm} from "react-hook-form";
 import axios from 'axios';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 
 const MyProfile = () => {
@@ -97,23 +98,23 @@ const MyProfile = () => {
 
     return (
         <div className="card__profile">
-            <div className="card__photo">
-                <div className="profile__picture"></div>
+            <div className="profile__photo">
+                <img className="profile__picture" src={profileData.URLprofile}/>
                 {imageActive 
                     ?
                         <>
                             <form onSubmit={handleSubmit(onSubmit)}>
-                            <input type="file" placeholder="Photo de profil" {...register("image", {
+                            <input type="file" placeholder="Photo de profil"  {...register("image", {
                             required : { value : true, message: "Veuillez ajouter une photo de profil"}})} />
                             {errors.image && <p className="message-erreur"> {errors.image.message} </p>}
-                                <input type="submit"/>
+                                <input type="submit" className="profile__button"/>
                                 <button onClick={toggleImage}>Annuler</button>
                             </form>
                         </>
                     : 
                         <div className="card__firs">
                             <p>Image de profil</p>
-                            <button onClick={toggleImage}>Modifier</button>
+                            <button className="profile__button" onClick={toggleImage}>Modifier</button>
                         </div>
                 }
             </div>
@@ -133,10 +134,9 @@ const MyProfile = () => {
                             </form>
                         </>
                     : 
-                        <div className="card__firstName">
-                            <p>Prénom</p>
+                        <div className="card__element">
                             <p>{profileData.firstName}</p>
-                            <button onClick={toggleFirstName}>Modifier</button>
+                            <button className="profile__button-info" onClick={toggleFirstName}>Modifier</button>
                         </div>
                 }
                 {lastNameActive 
@@ -154,10 +154,9 @@ const MyProfile = () => {
                             </form>
                         </>
                     : 
-                        <div className="card__lastName">
-                            <p>Nom</p>
+                        <div className="card__element">
                             <p>{profileData.lastName}</p>
-                            <button onClick={toggleLastName}>Modifier</button>
+                            <button className="profile__button-info" onClick={toggleLastName}>Modifier</button>
                         </div>
                 }
                 {birthDateActive 
@@ -172,9 +171,9 @@ const MyProfile = () => {
                             </form>
                         </>
                     : 
-                        <div className="card__Password">
-                            <p>Date de naissance</p>
-                            <button onClick={toggleBirthDate}>Modifier</button>
+                        <div className="card__element">
+                            <p>{moment(profileData.birthDate).format('ll')}</p>
+                            <button className="profile__button-info" onClick={toggleBirthDate}>Modifier</button>
                         </div>
                 }
             </div>

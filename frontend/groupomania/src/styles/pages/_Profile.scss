@@ -1,0 +1,71 @@
+.conteneur-profile{
+    background-color: $color-dark-shades;
+}
+.card__profile{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+}
+
+.profile__photo{
+    padding: 2rem;
+    border-radius: 1rem;
+    max-width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $color-light;
+
+}
+.profile__picture{
+    width: 100%;
+    max-width: 15rem;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+}
+
+.profile__button{
+    display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: .5rem;
+        color: $color-light;
+        background-color: $color-main;
+        border-radius: .5rem;
+        &:hover{
+            cursor: pointer;
+            background-color: $color-dark-shades;
+        }
+}
+
+.card__infos{
+    margin: 1rem;
+    padding: 2rem;
+    border-radius: 1rem;
+    max-width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $color-light;
+    & .card__element{
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        margin: .5rem;
+    }
+    & .profile__button-info{
+        height: 2rem;
+        color: $color-light;
+        background-color: $color-main;
+        border-radius: .5rem;
+        &:hover{
+            cursor: pointer;
+            background-color: $color-dark-shades;
+        }
+    }
+}

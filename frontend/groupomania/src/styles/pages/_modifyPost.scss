@@ -1,0 +1,38 @@
+.conteneur-modify{
+    background-color: $color-dark-shades;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    & h1 {
+        margin: 0 0 1rem 0;
+        color: $color-light;
+    }
+    & form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: $color-light;
+        padding: 2rem;
+        border-radius: 2rem;
+    }
+    & input {
+        width: 90%;
+        margin: 1rem;
+    }
+    & .modify--textInput{
+        height: 3rem;
+    }
+    & .modify-image{
+        max-width: 15rem;
+    }
+    & .modify--button{
+        height: 2rem;
+        color: $color-light;
+        background-color: $color-main;
+        border-radius: .5rem;
+        &:hover{
+            cursor: pointer;
+            background-color: $color-dark-shades;
+        }
+    }
+}

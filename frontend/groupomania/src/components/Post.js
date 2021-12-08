@@ -175,7 +175,7 @@ const Post = (props) => {
             <div className="post__authorship">
                 <div className="author-info"> 
                     <img className="profile-pic" src= {post.User.URLprofile}/>
-                    <div className="name&date">
+                    <div className="name-date">
                         <div className="author-name">{post.User.firstName} {post.User.lastName}</div>
                         <div className="post-creation-date">{moment(post.creationDate).format('lll')}</div>
                     </div>

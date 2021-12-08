@@ -63,7 +63,7 @@ const ModifyPost = () => {
             .catch(() => {
                 alert('Could not fetch this post')
             })
-    },[]) 
+    },[]);
 
     
     return (
@@ -72,11 +72,12 @@ const ModifyPost = () => {
             <div className="conteneur-modify" >
             <h1>Modifier votre post</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
+                <img src={ModifiedpostData.URLimage} className="modify-image"/>
                 <input type="text" defaultValue={ModifiedpostData.title} {...register("title",{
                     maxLength : {value: 50, message:"Le titre ne peut pas contenir plus de cinquante caractères"}})}/>
                 {errors.title &&<p className="message-erreur"> {errors.title.message} </p>}
 
-                <input type="text" defaultValue={ModifiedpostData.description}{...register("description",{
+                <input className="modify--textInput" type="text" defaultValue={ModifiedpostData.description}{...register("description",{
                     maxLength : {value: 250, message:"Le titre ne peut pas contenir plus de 250 caractères"}})}/>
                 {errors.description &&<p className="message-erreur"> {errors.description.message} </p>}
 
@@ -86,7 +87,7 @@ const ModifyPost = () => {
                 {errors.image && <p className="message-erreur"> {errors.image.message} </p>}
                 </label>
 
-                <input type="submit"/>
+                <input className="modify--button" type="submit"/>
 
             </form>
             </div>
